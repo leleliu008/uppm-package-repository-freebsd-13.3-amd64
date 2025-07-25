@@ -1,0 +1,5 @@
+summary: A shell extension to navigate your filesystem faster
+webpage: https://github.com/ajeetdsouza/zoxide
+version: 0.9.8
+bin-url: https://github.com/leleliu008/uppm-package-repository-freebsd-13.3-amd64/releases/download/2025.07.25/zoxide-0.9.8-freebsd-13.3-amd64.release.tar.xz
+bin-sha: 93091a6510e97299960bc0d1a3212f0637f1d5459d46ac228aeb81cebd75d19b

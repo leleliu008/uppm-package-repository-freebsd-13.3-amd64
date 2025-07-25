@@ -1,0 +1,5 @@
+summary: Convert text between DOS, UNIX, and Mac formats
+webpage: https://waterlan.home.xs4all.nl/dos2unix.html
+version: 7.5.2
+bin-url: https://github.com/leleliu008/uppm-package-repository-freebsd-13.3-amd64/releases/download/2025.07.25/dos2unix-7.5.2-freebsd-13.3-amd64.release.tar.xz
+bin-sha: 4380d9bd98c1b9f9445f62ba4a3d0ddb7a1bc13a0dac0cb8bbac228b2edcbbf4

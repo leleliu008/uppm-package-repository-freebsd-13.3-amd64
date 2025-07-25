@@ -1,0 +1,5 @@
+summary: Cross-platform make
+webpage: https://www.cmake.org/
+version: 3.31.7
+bin-url: https://github.com/leleliu008/uppm-package-repository-freebsd-13.3-amd64/releases/download/2025.07.25/cmake-3.31.7-freebsd-13.3-amd64.release.tar.xz
+bin-sha: 0c8260cdba25a059a14b3018d825159143efe4090f5ed8889dfd611d110e2ca0

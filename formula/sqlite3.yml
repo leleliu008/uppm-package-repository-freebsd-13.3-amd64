@@ -1,0 +1,5 @@
+summary: A command-line tool for interacting with SQLite databases
+webpage: https://sqlite.org/
+version: 3.49.1
+bin-url: https://github.com/leleliu008/uppm-package-repository-freebsd-13.3-amd64/releases/download/2025.07.25/sqlite3-3.49.1-freebsd-13.3-amd64.release.tar.xz
+bin-sha: 866333e75307e010f23885802301dad4fd8c7d8f7310e441b218be989c6578ba
