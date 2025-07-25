@@ -4,7 +4,9 @@ on:
   workflow_dispatch
 
 jobs:
+
   build:
+
     strategy:
       fail-fast: false
       matrix:
@@ -47,8 +49,8 @@ jobs:
             cat > ${{ matrix.pkg }}.yml <<EOF
             summary: $PACKAGE_SUMMARY
             webpage: $PACKAGE_WEB_URL
-            version: $PACKAGE_VERSION 
-            bin-url: $PACKAGE_BIN_URL 
+            version: $PACKAGE_VERSION
+            bin-url: $PACKAGE_BIN_URL
             bin-sha: $PACKAGE_BIN_SHA
             EOF
 
@@ -60,8 +62,58 @@ jobs:
             ${{ matrix.pkg }}.yml
 
 
+  cross:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg: [ bat ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: sudo apt -y update
+      - run: sudo apt -y install clang lld
+
+      - run: curl -LO https://raw.githubusercontent.com/leleliu008/ppkg/master/ppkg
+      - run: chmod a+x ppkg
+
+      - run: ./ppkg setup
+      - run: ./ppkg update
+      - run: ./ppkg install freebsd-13.3-amd64/${{ matrix.pkg }} --static
+      - run: ./ppkg bundle  freebsd-13.3-amd64/${{ matrix.pkg }} .tar.xz
+
+      - run: |
+          PACKAGE_SUMMARY="$(./ppkg info-installed freebsd-13.3-amd64/${{ matrix.pkg }} summary)"
+          PACKAGE_VERSION="$(./ppkg info-installed freebsd-13.3-amd64/${{ matrix.pkg }} version)"
+          PACKAGE_WEB_URL="$(./ppkg info-installed freebsd-13.3-amd64/${{ matrix.pkg }} web-url)"
+
+          PACKAGE_BIN_FILENAME="${{ matrix.pkg }}-$PACKAGE_VERSION-freebsd-13.3-amd64.release.tar.xz"
+
+          SHA256SUM="$(sha256sum "$PACKAGE_BIN_FILENAME")"
+
+          PACKAGE_BIN_SHA="${SHA256SUM%%' '*}"
+
+          PACKAGE_BIN_URL="https://github.com/${{ github.repository }}/releases/download/@TAGNAME@/$PACKAGE_BIN_FILENAME"
+
+          cat > ${{ matrix.pkg }}.yml <<EOF
+          summary: $PACKAGE_SUMMARY
+          webpage: $PACKAGE_WEB_URL
+          version: $PACKAGE_VERSION
+          bin-url: $PACKAGE_BIN_URL
+          bin-sha: $PACKAGE_BIN_SHA
+          EOF
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.pkg }}
+          path: |
+            ${{ matrix.pkg }}-*-freebsd-13.3-amd64.release.tar.xz
+            ${{ matrix.pkg }}.yml
+
+
   publish:
-    needs: build
+    needs: [build, cross]
 
     runs-on: ubuntu-latest
 
